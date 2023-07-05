@@ -1,0 +1,18 @@
+name: Manual Approval Workflow
+
+on: 
+  pull_request:
+    types:
+      - opened
+      - synchronize
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/manual-workflow-approval@v2
+        with:
+          approvers: "0x4d-sh"
+          issue-title: "Merge pull request #{{github.event.pull_request.number}}"
+          issue-body: "Please approve this pull request before merging it to main."
