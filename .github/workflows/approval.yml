@@ -5,15 +5,26 @@ on:
     branches:
       - main
 
+# jobs:
+#   manual-approval:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: trstringer/manual-approval@v1
+#         with:
+#           secret: ${{ github.TOKEN }}
+#           approvers: RPHAELLA
+#           minimum-approvals: 1
+#           issue-title: "Merge pull request #{{ github.event.pull_request.number }}"
+#           issue-body: "Please approve this pull request before merging it to main."
+#           exclude-workflow-initiator-as-approver: false
 jobs:
   manual-approval:
     runs-on: ubuntu-latest
     steps:
-      - uses: trstringer/manual-approval@v1
-        with:
-          secret: ${{ github.TOKEN }}
-          approvers: RPHAELLA
-          minimum-approvals: 1
-          issue-title: "Merge pull request #{{ github.event.pull_request.number }}"
-          issue-body: "Please approve this pull request before merging it to main."
-          exclude-workflow-initiator-as-approver: false
+    - name: Add Reviewers
+      uses: madrapps/add-reviewers@v1
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        reviewers: RPHAELLA
+        re-request-when-approved: true
+        re-request-when-changes-requested: true
